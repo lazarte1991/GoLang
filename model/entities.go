@@ -7,5 +7,6 @@ type Result struct {
 }
 
 func NewResult(tpe string, length int, value string) Result {
+
 	return Result{tpe, length, value}
 }

@@ -7,10 +7,12 @@ import (
 )
 
 func TestParser(t *testing.T) {
-	p1 := parser("TX13ABCDEFLMSSSSS")
-	assert.Equal(t, len([]rune(p1.Value)), p1.Length, "los valores no coinciden")
-	p2 := parser("TX06ABCDE")
-	assert.Equal(t, len([]rune(p2.Value)), p2.Length, "los valores no coinciden")
-	p3 := parser("NN04000GA")
-	assert.Equal(t, len([]rune(p3.Value)), p3.Length, "los valores no coinciden")
+	p1, err := parser("TX13ABCDEFLMSSSSS")
+	assert.Equal(t, len([]rune(p1.Value)), p1.Length, err)
+	p2, err := parser("TXY6ABCDE")
+	assert.Equal(t, len([]rune(p2.Value)), p2.Length, err)
+	p3, err := parser("NK04000GA")
+	assert.Equal(t, len([]rune(p3.Value)), p3.Length, err)
+	p4, err := parser("NN04000GADFS")
+	assert.Equal(t, len([]rune(p4.Value)), p4.Length, err)
 }

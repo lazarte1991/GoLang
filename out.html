@@ -55,7 +55,7 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">tudai2021.com/main.go (80.0%)</option>
+				<option value="file0">tudai2021.com/main.go (83.3%)</option>
 				
 				</select>
 			</div>
@@ -72,16 +72,31 @@
 		<pre class="file" id="file0" style="display: none">package main
 
 import (
+        "errors"
         "fmt"
         "strconv"
 
         "tudai2021.com/model"
 )
 
-func parser(inp string) model.Result <span class="cov8" title="1">{
-        r1 := model.NewResult(inp[0:2], stringToInt(inp[2:4]), inp[4:])
-        return r1
-}</span>
+func parser(inp string) (model.Result, error) <span class="cov8" title="1">{
+        if inp[0:2] == "NN" || inp[0:2] == "TX" </span><span class="cov8" title="1">{
+                if stringToInt(inp[2:4]) != 0 </span><span class="cov8" title="1">{
+                        if len([]rune(inp[4:])) == stringToInt(inp[2:4]) </span><span class="cov8" title="1">{
+                                r1 := model.NewResult(inp[0:2], stringToInt(inp[2:4]), inp[4:])
+                                return r1, nil
+
+                        }</span> else<span class="cov8" title="1"> {
+                                return model.Result{}, errors.New("cantidad de caracteres no coinciden")
+                        }</span>
+                } else<span class="cov8" title="1"> {
+                        return model.Result{}, errors.New("debe indicar cantidad en tipo numérico")
+                }</span>
+        } else<span class="cov8" title="1"> {
+                return model.Result{}, errors.New("tipo iválido")
+        }</span>
+
+}
 
 func stringToInt(s string) int <span class="cov8" title="1">{
         i1, _ := strconv.Atoi(s)
@@ -89,7 +104,8 @@ func stringToInt(s string) int <span class="cov8" title="1">{
 }</span>
 
 func main() <span class="cov0" title="0">{
-        fmt.Println(parser("TX13ABCDEFJKLMSSSSS"))
+        p, err := parser("TX13ABCDEFJKLMSS2dS")
+        fmt.Println(p, err)
 }</span>
 </pre>
 		
